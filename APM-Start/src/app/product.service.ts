@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/map';
 
 import { IProduct } from './product-list/product';
 
@@ -18,6 +19,11 @@ export class ProductService {
               // .do(data => console.log('All: ' + JSON.stringify(data)))
               .catch(this.handleError);
   }
+
+  getProduct(id: number): Observable<IProduct> {
+        return this.getProducts()
+            .map((products: IProduct[]) => products.find(p => p.productId === id));
+    }
 
   private handleError(err: HttpErrorResponse) : ObservableInput<IProduct[]> {
     console.log(err.message);
